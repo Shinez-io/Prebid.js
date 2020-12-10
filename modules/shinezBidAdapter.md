@@ -20,7 +20,7 @@ var adUnits = [
       {
         bidder: 'shinez',
         params: {
-          placementId: 00000000
+          placementId: "00000000"
         }
       }
     ]
