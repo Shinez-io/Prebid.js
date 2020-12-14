@@ -9,7 +9,7 @@ function isBidRequestValid(bid) {
 
 function buildRequests(validBidRequests, bidderRequest) {
 
-  const requests = validBidRequests.map(req => {
+  const data = validBidRequests.map(req => {
     const payload = {
       bidId: req.bidId,                         // Id unique for current request
       transactionId: req.transactionId,         // Unique for every AdUnit, but common for all bid requests 
@@ -20,16 +20,16 @@ function buildRequests(validBidRequests, bidderRequest) {
       refererInfo: bidderRequest.refererInfo    // https://docs.prebid.org/dev-docs/bidder-adaptor.html#referrers
     };
 
-    const request = {
-      method: 'POST',
-      url: new URL(TARGET_URL),
-      data: payload
-    };
-
-    return request;
+    return payload;
   });
 
-  return requests;
+  const request = {
+    method: 'POST',
+    url: new URL(TARGET_URL),
+    data: data
+  };
+
+  return request;
 }
 
 function interpretResponse(serverResponse, request) {
