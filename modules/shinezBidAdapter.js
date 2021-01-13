@@ -9,6 +9,8 @@ function isBidRequestValid(bid) {
 
 function buildRequests(validBidRequests, bidderRequest) {
 
+  const utcOffset = (new Date()).getTimezoneOffset();
+
   const data = validBidRequests.map(req => {
     const payload = {
       bidId: req.bidId,                         // Id unique for current request
@@ -16,8 +18,10 @@ function buildRequests(validBidRequests, bidderRequest) {
       crumbs: req.crumbs,                       // Publisher Common ID Module (https://docs.prebid.org/dev-docs/modules/pubCommonId.html)
       fpd: req.fpd,                             // First Party Data: https://docs.prebid.org/dev-docs/publisher-api-reference.html#setConfig-fpd
       mediaTypes: req.mediaTypes,               // https://docs.prebid.org/dev-docs/adunit-reference.html#adunitmediatypes
+      refererInfo: bidderRequest.refererInfo,   // https://docs.prebid.org/dev-docs/bidder-adaptor.html#referrers
       placementId: req.params.placementId,      // Some kind of unique identifier for OUR usage
-      refererInfo: bidderRequest.refererInfo    // https://docs.prebid.org/dev-docs/bidder-adaptor.html#referrers
+      utcOffset: utcOffset,
+      unit: req.params.unit
     };
 
     return payload;
