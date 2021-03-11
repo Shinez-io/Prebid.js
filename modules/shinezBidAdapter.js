@@ -21,9 +21,10 @@ function buildRequests(validBidRequests, bidderRequest) {
       refererInfo: bidderRequest.refererInfo,   // https://docs.prebid.org/dev-docs/bidder-adaptor.html#referrers
       placementId: req.params.placementId,      // Some kind of unique identifier for OUR usage
       utcOffset: utcOffset,
+      adUnitCode: req.adUnitCode,               // AdUnit
       unit: req.params.unit
     };
-
+    
     return payload;
   });
 
