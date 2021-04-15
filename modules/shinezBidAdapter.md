@@ -1,29 +1,33 @@
 # Overview
 
-**Module Name:** Shinez Bidder Adapter
-
-**Module Type:** Bidder Adapter
-
-**Maintainer:** tech-team@shinez.io
+```
+Module Name: Shinez Bidder Adapter
+Module Type: Bidder Adapter
+Maintainer:  tech-team@shinez.io
+```
 
 # Description
 
-Module that connects to Shinez's demand sources.
+Connects to shinez.io demand sources.
+
+The Shinez adapter requires setup and approval from the Shinez team.
+Please reach out to tech-team@shinez.io for more information.
  
 # Test Parameters
-```js
-var adUnits = [
- {
-    code: 'test-ad',
-    sizes: [[300, 250]],
-    bids: [
-      {
-        bidder: 'shinez',
-        params: {
-          placementId: "00000000"
-        }
-      }
-    ]
-  }
-];
+
+```javascript
+var adUnits = [{
+  code: "test-div",
+  mediaTypes: {
+    banner: {
+      sizes: [[300, 250]]
+    }
+  },
+  bids: [{
+    bidder: "shinez",
+    params: {
+      placementId: "00654321"
+    }
+  }]
+}];
 ```
