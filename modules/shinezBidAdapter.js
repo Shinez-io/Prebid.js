@@ -20,8 +20,6 @@ export const spec = {
 };
 
 export const internal = {
-  _buildServerBidRequest,
-  _convertServerBidResponse,
   TARGET_URL
 }
 
@@ -34,8 +32,10 @@ function isBidRequestValid(bid) {
 
 function buildRequests(validBidRequests, bidderRequest) {
   const utcOffset = (new Date()).getTimezoneOffset();
-  const data = validBidRequests
-    .map(bidRequest => internal._buildServerBidRequest(bidRequest, bidderRequest, utcOffset));
+  const data = [];
+  validBidRequests.forEach(function(bidRequest) {
+    data.push(_buildServerBidRequest(bidRequest, bidderRequest, utcOffset));
+  });
   const request = {
     method: 'POST',
     url: new URL(TARGET_URL),
@@ -45,7 +45,11 @@ function buildRequests(validBidRequests, bidderRequest) {
 }
 
 function interpretResponse(serverResponse, request) {
-  return serverResponse.body.map(internal._convertServerBidResponse);
+  const bids = [];
+  serverResponse.body.forEach(function(serverBid) {
+    bids.push(_convertServerBid(serverBid));
+  });
+  return bids;
 }
 
 function _buildServerBidRequest(bidRequest, bidderRequest, utcOffset) {
@@ -53,7 +57,6 @@ function _buildServerBidRequest(bidRequest, bidderRequest, utcOffset) {
     bidId: bidRequest.bidId,
     transactionId: bidRequest.transactionId,
     crumbs: bidRequest.crumbs,
-    fpd: bidRequest.fpd,
     mediaTypes: bidRequest.mediaTypes,
     refererInfo: bidderRequest.refererInfo,
     placementId: bidRequest.params.placementId,
@@ -63,7 +66,7 @@ function _buildServerBidRequest(bidRequest, bidderRequest, utcOffset) {
   }
 }
 
-function _convertServerBidResponse(response) {
+function _convertServerBid(response) {
   return {
     requestId: response.bidId,
     cpm: response.cpm,
